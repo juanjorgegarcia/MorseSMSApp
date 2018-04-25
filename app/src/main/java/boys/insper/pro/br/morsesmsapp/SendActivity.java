@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -87,7 +88,12 @@ public class SendActivity extends AppCompatActivity {
             }
         });
 
-
+        listaContatos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                posCounter = i;
+            }
+        });
 
 
         buttonSend.setOnClickListener(new View.OnClickListener() {

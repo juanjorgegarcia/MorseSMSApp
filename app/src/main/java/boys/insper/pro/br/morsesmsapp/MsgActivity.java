@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -46,6 +47,7 @@ public class MsgActivity extends AppCompatActivity {
         listaMensagens.setItemChecked(posCounter, true);
         listaMensagens.setDrawSelectorOnTop(true);
 
+
         buttonUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +73,13 @@ public class MsgActivity extends AppCompatActivity {
             public void onClick(View view) {
                 SelectedMsg = listaMensagens.getItemAtPosition(posCounter).toString();
                 openSendActivity();
+            }
+        });
+
+        listaMensagens.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                posCounter = i;
             }
         });
     }
