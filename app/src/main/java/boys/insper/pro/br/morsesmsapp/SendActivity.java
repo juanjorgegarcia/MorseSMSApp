@@ -24,6 +24,7 @@ public class SendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
 
+
         Bundle b = getIntent().getExtras();
         final String message = b.getString("SelectedMessage");
 
@@ -31,15 +32,17 @@ public class SendActivity extends AppCompatActivity {
         final List<String> numeros = new ArrayList<String>();
         final List<String> contatos = new ArrayList<String>();
 
-        numeros.add("017997812170");
+        numeros.add("+5517997812170");
         numeros.add("+5511994438280");
-        numeros.add("5511983752928");
+        numeros.add("+5511983752928");
         numeros.add("+5511991836878");
+        numeros.add("+5517991076213");
 
         contatos.add("Tarraf");
         contatos.add("Terabyte");
         contatos.add("Folginha");
         contatos.add("Gui");
+        contatos.add("Juan");
 
         final ListView listaContatos = (ListView) findViewById(R.id.list_msg);
         Button buttonSend = (Button) findViewById(R.id.button_send);

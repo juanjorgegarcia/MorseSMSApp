@@ -6,11 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:text="Bem vindo ao MorseSMSApp!\n\nPara continuar é preciso que você\natorize o envio de SMS"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="15sp"
+        android:textAlignment="center"
+        android:text="É preciso realizar a autorização apenas uma vez."
+        android:layout_above="@+id/button_main"/>
+
+
     <Button android:id="@+id/button_main"
         android:layout_width="match_parent"
         android:layout_height="80sp"
         android:textAlignment="center"
-        android:text="Continuar"
+        android:text="Autorizar"
         android:layout_alignParentBottom="true"/>
 
 
