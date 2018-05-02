@@ -25,6 +25,7 @@
 
 
     <Button android:id="@+id/button_main"
+        android:background="@drawable/shadowed"
         android:layout_width="match_parent"
         android:layout_height="80sp"
         android:textAlignment="center"
