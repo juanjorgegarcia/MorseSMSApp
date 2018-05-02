@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="boys.insper.pro.br.morsesmsapp">
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,8 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MsgActivity" />
-        <activity android:name=".SendActivity"></activity>
+        <activity android:name=".SendActivity" />
+        <activity android:name=".MorseActivity"/>
     </application>
 
-    <uses-permission android:name="android.permission.SEND_SMS" />
 </manifest>

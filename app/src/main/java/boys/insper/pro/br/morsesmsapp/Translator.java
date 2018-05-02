@@ -251,7 +251,7 @@ public class Translator {
             else{
 
 
-                return 0;
+                return ' ';
             }
         }
 

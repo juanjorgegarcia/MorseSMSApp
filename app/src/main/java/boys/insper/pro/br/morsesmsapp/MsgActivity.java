@@ -1,13 +1,17 @@
 package boys.insper.pro.br.morsesmsapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,6 +25,7 @@ public class MsgActivity extends AppCompatActivity {
     public String SelectedMsg;
     private int posCounter = 0;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +51,7 @@ public class MsgActivity extends AppCompatActivity {
         listaMensagens.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listaMensagens.setItemChecked(posCounter, true);
         listaMensagens.setDrawSelectorOnTop(true);
+
 
 
         buttonUp.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +88,7 @@ public class MsgActivity extends AppCompatActivity {
                 posCounter = i;
             }
         });
+
     }
 
     private void openSendActivity() {
@@ -91,4 +98,5 @@ public class MsgActivity extends AppCompatActivity {
 
         finish();
     }
+
 }

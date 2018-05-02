@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openMsgActivity() {
-        Intent intent = new Intent(this, MsgActivity.class);
+        Intent intent = new Intent(this, MorseActivity.class);
         startActivity(intent);
 
         finish();
