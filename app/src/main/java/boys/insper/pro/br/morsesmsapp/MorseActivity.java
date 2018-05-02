@@ -126,7 +126,7 @@ public class MorseActivity extends AppCompatActivity {
         try {
             String saveMe = translator.morseToChar(press) + "";
 
-            if (press.length() <= 5 & translator.morseToChar(press) != ' ') {
+            if (press.length() <= 5 & translator.morseToChar(press) != '_') {
 
                 textTap.setText(textTap.getText() + saveMe);
                 pressOutcome = "";
