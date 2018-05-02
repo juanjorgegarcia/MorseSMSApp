@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MsgActivity" />
-        <activity android:name=".SendActivity"></activity>
+        <activity android:name=".SendActivity"/>
+        <activity android:name=".MorseActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.SEND_SMS" />
