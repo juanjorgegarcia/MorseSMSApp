@@ -173,6 +173,9 @@ public class Translator {
         return morse_list;
     }
 
+//    As funcoes abaixo foram feitas para ajudar na construcao do dicionario
+
+//    Funcao que retorna uma lista alfabetica
     public LinkedList<String> getAlpha(){
         LinkedList<String> azList = new LinkedList<>();
         LinkedList<String> CodesList = this.getCodes();
@@ -187,6 +190,7 @@ public class Translator {
 
     }
 
+//    Funcao que retorna uma lista morse em ordem alfabetica
     public LinkedList<String> getAlphaToMorse(){
         LinkedList<String> azListToMorse = new LinkedList<>();
         LinkedList<String> AlphaList = this.getAlpha();
@@ -199,6 +203,7 @@ public class Translator {
 
     }
 
+//    Funcao que retorna uma lista de strings dos caracteres em ordem do getCodes (pesquisa em largura)
     public LinkedList<String> getCodesToChar(){
         LinkedList<String> codesToCharList = new LinkedList<>();
         LinkedList<String> CodesList = this.getCodes();
