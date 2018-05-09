@@ -1,11 +1,14 @@
 package boys.insper.pro.br.morsesmsapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +24,7 @@ public class SendActivity extends AppCompatActivity {
     private int posCounter = 0;
     private String backInfo;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,31 +67,47 @@ public class SendActivity extends AppCompatActivity {
         listaContatos.setItemChecked(posCounter, true);
         listaContatos.setDrawSelectorOnTop(true);
 
-        buttonUp.setOnClickListener(new View.OnClickListener() {
+        buttonUp.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                if (posCounter > 0) {
-                    posCounter -= 1;
-                    listaContatos.setItemChecked(posCounter, true);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    vibrate();
+                    if (posCounter > 0) {
+                        posCounter -= 1;
+                        listaContatos.setItemChecked(posCounter, true);
+                    }
                 }
+                return false;
             }
+
         });
 
-        buttonDown.setOnClickListener(new View.OnClickListener() {
+
+        buttonDown.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                if (posCounter < numeros.size()-1) {
-                    posCounter += 1;
-                    listaContatos.setItemChecked(posCounter, true);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    vibrate();
+                    if (posCounter < numeros.size()-1) {
+                        posCounter += 1;
+                        listaContatos.setItemChecked(posCounter, true);
+                    }
                 }
+                return false;
             }
+
         });
 
-        buttonBack.setOnClickListener(new View.OnClickListener() {
+        buttonBack.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                openPriorActivity();
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    vibrate();
+                    openPriorActivity();
+                }
+                return false;
             }
+
         });
 
         listaContatos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -97,21 +117,25 @@ public class SendActivity extends AppCompatActivity {
             }
         });
 
-
-        buttonSend.setOnClickListener(new View.OnClickListener() {
+        buttonSend.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    vibrate();
 
-                String numero = numeros.get(posCounter);
+                    String numero = numeros.get(posCounter);
 
-                SmsManager manager = SmsManager.getDefault();
+                    SmsManager manager = SmsManager.getDefault();
 
-                manager.sendTextMessage(numero, null, message, null, null);
+                    manager.sendTextMessage(numero, null, message, null, null);
 
-                Utils.showToast(getApplicationContext(), "Sua mensagem foi enviada!");
+                    Utils.showToast(getApplicationContext(), "Sua mensagem foi enviada!");
 
-                Log.d("oi", contatos.get(posCounter)+ " " + numero + " : " + message);
+                    Log.d("oi", contatos.get(posCounter)+ " " + numero + " : " + message);
+                }
+                return false;
             }
+
         });
 
 
@@ -128,5 +152,10 @@ public class SendActivity extends AppCompatActivity {
         }
 
         finish();
+    }
+
+    private void vibrate() {
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(50);
     }
 }

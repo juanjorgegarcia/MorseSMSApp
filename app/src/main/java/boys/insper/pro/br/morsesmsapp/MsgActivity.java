@@ -1,10 +1,12 @@
 package boys.insper.pro.br.morsesmsapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.os.Debug;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
@@ -54,41 +56,60 @@ public class MsgActivity extends AppCompatActivity {
         listaMensagens.setDrawSelectorOnTop(true);
 
 
-
-        buttonUp.setOnClickListener(new View.OnClickListener() {
+        buttonUp.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                if (posCounter > 0) {
-                    posCounter -= 1;
-                    listaMensagens.setItemChecked(posCounter, true);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    vibrate();
+                    if (posCounter > 0) {
+                        posCounter -= 1;
+                        listaMensagens.setItemChecked(posCounter, true);
+                    }
                 }
+                return false;
             }
         });
 
-        buttonDown.setOnClickListener(new View.OnClickListener() {
+
+        buttonDown.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                if (posCounter < mensagens.size()-1) {
-                    posCounter += 1;
-                    listaMensagens.setItemChecked(posCounter, true);
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    vibrate();
+                    if (posCounter < mensagens.size()-1) {
+                        posCounter += 1;
+                        listaMensagens.setItemChecked(posCounter, true);
+                    }
                 }
+                return false;
             }
         });
 
-        buttonNext.setOnClickListener(new View.OnClickListener() {
+
+        buttonNext.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                SelectedMsg = listaMensagens.getItemAtPosition(posCounter).toString();
-                openSendActivity();
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    vibrate();
+                    SelectedMsg = listaMensagens.getItemAtPosition(posCounter).toString();
+                    openSendActivity();
+                }
+                return false;
             }
         });
 
-        buttonBack.setOnClickListener(new View.OnClickListener() {
+
+        buttonBack.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                openMorseActivity();
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    vibrate();
+                    openMorseActivity();
+                }
+                return false;
             }
         });
+
 
         listaMensagens.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -115,4 +136,8 @@ public class MsgActivity extends AppCompatActivity {
         finish();
     }
 
+    private void vibrate() {
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(50);
+    }
 }

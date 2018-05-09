@@ -1,6 +1,7 @@
 package boys.insper.pro.br.morsesmsapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -24,6 +25,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.os.Vibrator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,6 +154,7 @@ public class MorseActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 if (startSpan > 0) {
+                    vibrate();
                     startSpan--;
                     addHighlight();
                     start();
@@ -188,6 +191,7 @@ public class MorseActivity extends AppCompatActivity {
                         buttonTap.setX((width / 2 - buttonTap.getWidth()) - buttonTap.getWidth() / 2);
                         buttonTap.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.colorChange)));
                         if (!timerbsRunning & startSpan > 0) {
+                            vibrate();
                             startSpan--;
                             addHighlight();
                             timerbs.start();
@@ -212,6 +216,7 @@ public class MorseActivity extends AppCompatActivity {
                         buttonTap.setX((width / 2 + buttonTap.getWidth()) - buttonTap.getWidth() / 2);
                         buttonTap.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.colorChange)));
                         if (!sent) {
+                            vibrate();
                             sendSMS();
                             sent = true;
                         }
@@ -227,6 +232,7 @@ public class MorseActivity extends AppCompatActivity {
 
 
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    vibrate();
                     longPressTime = (int) (long) System.currentTimeMillis();
                     timer.cancel();
                     timer2.start();
@@ -280,6 +286,7 @@ public class MorseActivity extends AppCompatActivity {
         buttonSOS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                vibrate();
                 openSOS();
             }
         });
@@ -316,6 +323,8 @@ public class MorseActivity extends AppCompatActivity {
         if (textTap.length() - startSpan > 0) {
             textTap.setText(textTap.getText().subSequence(0, startSpan));
         }
+
+        textTap.setText(textTap.getText().toString());
     }
 
     private void addHighlight() {
@@ -326,7 +335,12 @@ public class MorseActivity extends AppCompatActivity {
 
     private void sendSMS () {
         Intent intent = new Intent(this, SendActivity.class);
-        intent.putExtra("SelectedMessage", textTap.getText());
+        if (textTap.getText().equals("")) {
+            intent.putExtra("SelectedMessage", " ");
+        }
+        else {
+            intent.putExtra("SelectedMessage", textTap.getText());
+        }
         intent.putExtra("BackInfo", "morse");
         startActivity(intent);
 
@@ -338,6 +352,11 @@ public class MorseActivity extends AppCompatActivity {
         startActivity(intent);
 
         finish();
+    }
+
+    private void vibrate() {
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(50);
     }
 
 }
