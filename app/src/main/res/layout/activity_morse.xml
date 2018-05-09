@@ -26,21 +26,16 @@
         android:textSize="50sp" />
 
 
-    <AbsoluteLayout
-        android:id="@+id/absolute_tap"
-        android:layout_width="match_parent"
-        android:layout_height="86dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/button_tap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            app:fabSize="normal" />
-
-    </AbsoluteLayout>
+    <Button
+        android:id="@+id/button_sos"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/absolute_tap"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:drawableTop="@android:drawable/ic_dialog_alert"
+        android:textColor="@android:color/white"/>
 
 
     <ProgressBar
@@ -48,20 +43,23 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="216dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/absolute_tap"
+        android:layout_above="@+id/button_sos"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         android:max="100"
         android:min="0"
         android:progress="0"
         android:visibility="visible"
         tools:visibility="visible" />
 
+
+
     <android.support.v4.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <!-- The main content view -->
         <FrameLayout
             android:id="@+id/content_frame"
@@ -76,5 +74,26 @@
             android:background="#ffffff" />
 
     </android.support.v4.widget.DrawerLayout>
+
+
+    <AbsoluteLayout
+        android:id="@+id/absolute_tap"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/button_tap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:translationZ="10dp"
+            app:fabSize="normal" />
+
+    </AbsoluteLayout>
+
+
+
 
 </RelativeLayout>

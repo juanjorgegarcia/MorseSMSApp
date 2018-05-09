@@ -41,6 +41,7 @@ public class MsgActivity extends AppCompatActivity {
         Button buttonNext = (Button) findViewById(R.id.button_next);
         Button buttonUp = (Button) findViewById(R.id.button_up);
         Button buttonDown = (Button) findViewById(R.id.button_down);
+        Button buttonBack = (Button) findViewById(R.id.button_back);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_activated_1, mensagens);
@@ -82,6 +83,13 @@ public class MsgActivity extends AppCompatActivity {
             }
         });
 
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openMorseActivity();
+            }
+        });
+
         listaMensagens.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -94,6 +102,14 @@ public class MsgActivity extends AppCompatActivity {
     private void openSendActivity() {
         Intent intent = new Intent(this, SendActivity.class);
         intent.putExtra("SelectedMessage", SelectedMsg);
+        intent.putExtra("BackInfo", "msg");
+        startActivity(intent);
+
+        finish();
+    }
+
+    private void openMorseActivity() {
+        Intent intent = new Intent(this, MorseActivity.class);
         startActivity(intent);
 
         finish();

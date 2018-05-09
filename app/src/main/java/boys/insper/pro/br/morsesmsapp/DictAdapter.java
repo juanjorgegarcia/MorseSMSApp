@@ -65,8 +65,8 @@ public class DictAdapter extends BaseAdapter {
 
         tv1.setText(dictItem.getlAZ());
         tv2.setText(dictItem.getmAZ());
-        tv3.setText(dictItem.getlCodes());
-        tv4.setText(dictItem.getmCodes());
+        tv4.setText(dictItem.getlCodes());
+        tv3.setText(dictItem.getmCodes());
 
 
         return view;

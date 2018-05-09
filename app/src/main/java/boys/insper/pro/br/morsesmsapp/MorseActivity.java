@@ -39,9 +39,10 @@ public class MorseActivity extends AppCompatActivity {
     private Translator translator = new Translator();
     private boolean init = true;
     private boolean bsMode = false;
+    private boolean sendMode = false;
+    private boolean sent = false;
     private boolean timerbsRunning = false;
     private int startSpan = 0;
-    private String[] mPlanetTitles;
     private ListView mDrawerList;
 
 
@@ -62,25 +63,22 @@ public class MorseActivity extends AppCompatActivity {
         textTap = findViewById(R.id.text_tap);
         progressTap = findViewById(R.id.progress_tap);
         textPreview = findViewById(R.id.text_tap2);
+        Button buttonSOS = findViewById(R.id.button_sos);
 
 
-        final List<String> letraAZ = new ArrayList<String>();
-        final List<String> morseAZ = new ArrayList<String>();
-        final List<String> letraCodes = new ArrayList<String>();
-        final List<String> morseCodes = new ArrayList<String>();
-        List<DictionaryItem> dictionaryItems = new ArrayList<DictionaryItem>();
+        final List<String> letraAZ = translator.getAlpha();
+        final List<String> morseAZ = translator.getAlphaToMorse();
+        final List<String> letraCodes = translator.getCodesToChar();
+        final List<String> morseCodes = translator.getCodes();
+        List<DictionaryItem> dictionaryItems = new ArrayList<>();
 
-        for (int i = 0; i < 20; i++) {
-//            letraAZ.add("lAZ");
-//            morseAZ.add("mAZ");
-//            letraCodes.add("lC");
-//            morseCodes.add("mC");
-            dictionaryItems.add(new DictionaryItem("lAZ", "mAZ", "lC", "mC"));
+
+
+        for (int i = 0; i < translator.getCodes().size(); i++) {
+            dictionaryItems.add(new DictionaryItem(letraAZ.get(i), morseAZ.get(i),letraCodes.get(i), morseCodes.get(i)));
         }
 
 
-
-        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
         mDrawerList = findViewById(R.id.left_drawer);
 
         // Set the adapter for the list view
@@ -91,8 +89,7 @@ public class MorseActivity extends AppCompatActivity {
         mDrawerList.setAdapter(new DictAdapter(dictionaryItems, this));
 
         // Set the list's click listener
-        //mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
+        mDrawerList.clearFocus();
 
 
         ViewTreeObserver vto = layout.getViewTreeObserver();
@@ -103,13 +100,17 @@ public class MorseActivity extends AppCompatActivity {
                 if (init) {
                     buttonTap.setX(width/2 - buttonTap.getWidth()/2);
 
-                    textTap.setText("Oh snap fam. Where'd ya found this.");
+                    textTap.setText("");
+
+                    mDrawerList.bringToFront();
+                    mDrawerList.invalidate();
 
                     init = false;
                 }
 
             }
         });
+
 
 
         timer = new CountDownTimer(500, 10) {
@@ -166,8 +167,15 @@ public class MorseActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 int longPress2;
 
-                if (width/2 - event.getRawX() > buttonTap.getWidth() / 2 & !bsMode) {
+                if (width/2 - event.getRawX() > buttonTap.getWidth() / 2 & !bsMode & !sendMode) {
                     bsMode = true;
+                    pressOutcome = "";
+                    textPreview.setText("");
+                    progressTap.setProgress(0);
+                }
+
+                if (width/2 - event.getRawX() < -buttonTap.getWidth() / 2 & !bsMode & !sendMode) {
+                    sendMode = true;
                     pressOutcome = "";
                     textPreview.setText("");
                     progressTap.setProgress(0);
@@ -179,7 +187,8 @@ public class MorseActivity extends AppCompatActivity {
                     } else if (event.getRawX() < (width / 2 - buttonTap.getWidth())) {
                         buttonTap.setX((width / 2 - buttonTap.getWidth()) - buttonTap.getWidth() / 2);
                         buttonTap.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.colorChange)));
-                        if (!timerbsRunning) {
+                        if (!timerbsRunning & startSpan > 0) {
+                            startSpan--;
                             addHighlight();
                             timerbs.start();
                             timerbsRunning = true;
@@ -190,6 +199,25 @@ public class MorseActivity extends AppCompatActivity {
                         timerbs.cancel();
                         timerbsRunning = false;
                         progressTap.setProgress(0);
+
+                    }
+
+                    timer2.cancel();
+                }
+
+                if (sendMode) {
+                    if (event.getRawX() < width / 2) {
+                        buttonTap.setX(width / 2 - buttonTap.getWidth() / 2);
+                    } else if (event.getRawX() > (width / 2 + buttonTap.getWidth())) {
+                        buttonTap.setX((width / 2 + buttonTap.getWidth()) - buttonTap.getWidth() / 2);
+                        buttonTap.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.colorChange)));
+                        if (!sent) {
+                            sendSMS();
+                            sent = true;
+                        }
+                    } else {
+                        buttonTap.setX(event.getRawX() - buttonTap.getWidth() / 2);
+                        buttonTap.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.colorAccent)));
 
                     }
 
@@ -209,7 +237,13 @@ public class MorseActivity extends AppCompatActivity {
                     longPress2 = (int) (long) System.currentTimeMillis();
                     //Log.d("long2-long1", String.valueOf(longPress2 - longPressTime));
 
-                    backspace();
+                    if (event.getRawX() < (width / 2 - buttonTap.getWidth())) {
+                        backspace();
+                    } else {
+                        textTap.setText(textTap.getText().toString());
+                    }
+
+
                     timerbs.cancel();
                     timerbsRunning = false;
                     buttonTap.setX(width/2 - buttonTap.getWidth()/2);
@@ -217,7 +251,7 @@ public class MorseActivity extends AppCompatActivity {
                     timer2.cancel();
                     progressTap.setProgress(0);
 
-                    if (!bsMode) {
+                    if (!bsMode & !sendMode) {
                         if (pressOutcome == "space") {
                             textTap.setText(textTap.getText() + " ");
                             pressOutcome = "";
@@ -236,9 +270,17 @@ public class MorseActivity extends AppCompatActivity {
                     }
 
                     bsMode = false;
+                    sendMode = false;
                 }
 
                 return false;
+            }
+        });
+
+        buttonSOS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSOS();
             }
         });
 
@@ -280,6 +322,22 @@ public class MorseActivity extends AppCompatActivity {
         SpannableString str = new SpannableString(textTap.getText());
         str.setSpan(new BackgroundColorSpan(Color.LTGRAY), startSpan, textTap.length(), 0);
         textTap.setText(str);
+    }
+
+    private void sendSMS () {
+        Intent intent = new Intent(this, SendActivity.class);
+        intent.putExtra("SelectedMessage", textTap.getText());
+        intent.putExtra("BackInfo", "morse");
+        startActivity(intent);
+
+        finish();
+    }
+
+    private void openSOS () {
+        Intent intent = new Intent(this, MsgActivity.class);
+        startActivity(intent);
+
+        finish();
     }
 
 }

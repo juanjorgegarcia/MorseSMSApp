@@ -19,6 +19,7 @@ import java.util.List;
 public class SendActivity extends AppCompatActivity {
 
     private int posCounter = 0;
+    private String backInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class SendActivity extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         final String message = b.getString("SelectedMessage");
+        backInfo = b.getString("BackInfo");
 
 
         final List<String> numeros = new ArrayList<String>();
@@ -84,7 +86,7 @@ public class SendActivity extends AppCompatActivity {
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openMsgActivity();
+                openPriorActivity();
             }
         });
 
@@ -115,9 +117,15 @@ public class SendActivity extends AppCompatActivity {
 
     }
 
-    private void openMsgActivity() {
-        Intent intent = new Intent(this, MsgActivity.class);
-        startActivity(intent);
+    private void openPriorActivity() {
+        if (backInfo.equals("morse")) {
+            Intent intent = new Intent(this, MorseActivity.class);
+
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, MsgActivity.class);
+            startActivity(intent);
+        }
 
         finish();
     }
