@@ -427,4 +427,161 @@ public class TranslatorTest {
             i++;
         }
     }
+    @Test
+    public void abc() {
+        String[] abc = new String[]{
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "a",
+                "b",
+                "c",
+                "d",
+                "e",
+                "f",
+                "g",
+                "h",
+                "i",
+                "j",
+                "k",
+                "l",
+                "m",
+                "n",
+                "o",
+                "p",
+                "q",
+                "r",
+                "s",
+                "t",
+                "u",
+                "v",
+                "w",
+                "x",
+                "y",
+                "z",
+        };
+
+        LinkedList<String> codes = translator.getAlpha();
+
+        int i = 0;
+
+        for(String code: codes) {
+            assertEquals(abc[i], code);
+
+            i++;
+        }
+    }
+    @Test
+    public void cba() {
+        String[] cba = new String[]{
+                "-----",
+                ".----",
+                "..---",
+                "...--",
+                "....-",
+                ".....",
+                "-....",
+                "--...",
+                "---..",
+                "----.",
+                ".-",
+                "-...",
+                "-.-.",
+                "-..",
+                ".",
+                "..-.",
+                "--.",
+                "....",
+                "..",
+                ".---",
+                "-.-",
+                ".-..",
+                "--",
+                "-.",
+                "---",
+                ".--.",
+                "--.-",
+                ".-.",
+                "...",
+                "-",
+                "..-",
+                "...-",
+                ".--",
+                "-..-",
+                "-.--",
+                "--..",
+
+
+        };
+
+        LinkedList<String> codes = translator.getAlphaToMorse();
+
+        int i = 0;
+
+        for(String code: codes) {
+            assertEquals(cba[i], code);
+
+            i++;
+        }
+    }
+    @Test
+    public void morseAlpha() {
+        String[] morseAlpha = new String[]{
+                "e",
+                "t",
+                "i",
+                "a",
+                "n",
+                "m",
+                "s",
+                "u",
+                "r",
+                "w",
+                "d",
+                "k",
+                "g",
+                "o",
+                "h",
+                "v",
+                "f",
+                "l",
+                "p",
+                "j",
+                "b",
+                "x",
+                "c",
+                "y",
+                "z",
+                "q",
+                "5",
+                "4",
+                "3",
+                "2",
+                "1",
+                "6",
+                "7",
+                "8",
+                "9",
+                "0",
+
+
+        };
+
+        LinkedList<String> codes = translator.getCodesToChar();
+
+        int i = 0;
+
+        for(String code: codes) {
+            assertEquals(morseAlpha[i], code);
+
+            i++;
+        }
+    }
 }
